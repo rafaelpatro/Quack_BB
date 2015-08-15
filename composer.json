@@ -1,0 +1,9 @@
+{
+  "name" : "quack-bb",
+  "description" : "Módulo de pagamento pelo Banco do Brasil, para Magento.",
+  "version" : "1.0.0",
+  "repositories" : [ {
+    "type" : "composer",
+    "url" : "https://packagist.org/"
+  } ]
+}

@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Este arquivo é parte do programa Quack BB
+ *
+ * Quack BB é um software livre; você pode redistribuí-lo e/ou 
+ * modificá-lo dentro dos termos da Licença Pública Geral GNU como 
+ * publicada pela Fundação do Software Livre (FSF); na versão 3 da 
+ * Licença, ou (na sua opinião) qualquer versão.
+ *
+ * Este programa é distribuído na esperança de que possa ser  útil, 
+ * mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO
+ * a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a
+ * Licença Pública Geral GNU para maiores detalhes.
+ *
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU junto
+ * com este programa, Se não, veja <http://www.gnu.org/licenses/>.
+ *
+ * @category   Quack
+ * @package    Quack_BB
+ * @author     Rafael Patro <rafaelpatro@gmail.com>
+ * @copyright  Copyright (c) 2015 Rafael Patro (rafaelpatro@gmail.com)
+ * @license    http://www.gnu.org/licenses/gpl.txt
+ * @link       https://github.com/rafaelpatro/Quack-BB
+ */ 
+-->
+<config>
+    <modules>
+        <Quack_BB>
+            <version>1.0.0</version>          
+        </Quack_BB>
+    </modules>
+    <global>
+        <models>
+            <bb>
+                <class>Quack_BB_Model</class>
+                <resourceModel>bb_mysql4</resourceModel>
+            </bb>
+        </models>
+		<helpers>
+			<bb>
+				<class>Quack_BB_Helper</class>
+			</bb>
+		</helpers>
+		 <resources>
+            <bb_setup>
+                <setup>
+                    <module>Quack_BB</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </bb_setup>
+            <bb_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </bb_write>
+            <bb_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </bb_read>
+        </resources>
+        <blocks>
+            <bb>
+                <class>Quack_BB_Block</class>
+            </bb>
+        </blocks>
+    </global>
+    <frontend>      
+        <routers>
+            <bb>
+                <use>standard</use>
+                <args>
+                    <module>Quack_BB</module>
+                    <frontName>bb</frontName>
+                </args>
+            </bb>
+        </routers>
+        <translate>
+            <modules>
+                <Quack_BB>
+                    <files>
+                        <default>Quack_BB.csv</default>
+                    </files>
+                </Quack_BB>
+            </modules>
+        </translate>
+        <events>
+        	<payment_info_block_prepare_specific_information>
+        		<observers>
+        			<quack_bb_observer>
+        				<type>singleton</type>
+        				<class>Quack_BB_Model_Observer</class>
+        				<method>setFrontendPaymentInfo</method>
+        			</quack_bb_observer>
+        		</observers>
+        	</payment_info_block_prepare_specific_information>
+        </events>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Quack_BB>
+                    <files>
+                        <default>Quack_BB.csv</default>
+                    </files>
+                </Quack_BB>
+            </modules>
+        </translate>
+        <events>
+        	<payment_info_block_prepare_specific_information>
+        		<observers>
+        			<quack_bb_observer>
+        				<type>singleton</type>
+        				<class>Quack_BB_Model_Observer</class>
+        				<method>setBackendPaymentInfo</method>
+        			</quack_bb_observer>
+        		</observers>
+        	</payment_info_block_prepare_specific_information>
+        </events>
+    </adminhtml>
+    <default>
+         <payment>
+             <bb_standard>
+                  <model>bb/standard</model>
+                  <title>Banco do Brasil</title>
+                  <allowspecific>1</allowspecific>
+                  <urlbb>https://mpag.bb.com.br/site/mpag/</urlbb>
+                  <urlsonda>https://mpag.bb.com.br/site/mpag/REC3.jsp</urlsonda>
+            </bb_standard>
+        </payment>
+    </default>
+    <crontab>
+    	<jobs>
+    		<bb_status_check>
+    			<schedule>
+    				<cron_expr>*/10 * * * *</cron_expr>
+    			</schedule>
+    			<run>
+    				<model>bb/observer::checkPayment</model>
+    			</run>
+    		</bb_status_check>
+    	</jobs>
+    </crontab>
+</config>

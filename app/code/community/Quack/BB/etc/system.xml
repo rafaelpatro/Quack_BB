@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Este arquivo é parte do programa Quack BB
+ *
+ * Quack BB é um software livre; você pode redistribuí-lo e/ou 
+ * modificá-lo dentro dos termos da Licença Pública Geral GNU como 
+ * publicada pela Fundação do Software Livre (FSF); na versão 3 da 
+ * Licença, ou (na sua opinião) qualquer versão.
+ *
+ * Este programa é distribuído na esperança de que possa ser  útil, 
+ * mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO
+ * a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a
+ * Licença Pública Geral GNU para maiores detalhes.
+ *
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU junto
+ * com este programa, Se não, veja <http://www.gnu.org/licenses/>.
+ *
+ * @category   Quack
+ * @package    Quack_BB
+ * @author     Rafael Patro <rafaelpatro@gmail.com>
+ * @copyright  Copyright (c) 2015 Rafael Patro (rafaelpatro@gmail.com)
+ * @license    http://www.gnu.org/licenses/gpl.txt
+ * @link       https://github.com/rafaelpatro/Quack-BB
+ */ 
+-->
+<config>
+   <sections>
+        <payment>
+            <groups>
+               <bb_standard translate="label" module="bb">
+                    <label>Banco do Brasil</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+					<fields>
+				  		<active translate="label">
+							<label>Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+					  	</active>
+					  	<title>
+					  		<label>Título</label>
+					  		<frontend_type>text</frontend_type>
+					  		<sort_order>10</sort_order>
+					  		<show_in_default>1</show_in_default>
+					  		<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+			  		  	</title>
+						<urlretorno>
+							<label>URL Retorno</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Endereço (URL) para o qual o cliente será direcionado, através do formulário Retorno, caso deseje voltar identificado ao site do convenente, a partir da última página do processo de pagamento, clicando em botão disponível nessa página. Exemplo: /RetornoBB.asp?1358568</comment>
+						</urlretorno>
+						<urlinforma>
+							<label>URL Informa</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Complemento de endereço (URL) que será acionado, indicando que uma transação foi finalizada no site do BB. Exemplo: /InformaBB.asp?1358568</comment>
+						</urlinforma>
+						<urlbb>
+							<label>URL do Banco</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>URL completa do webservice de pagamento.</comment>
+						</urlbb>
+						<urlsonda>
+							<label>URL Sonda</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>45</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>URL completa do webservice de consulta.</comment>
+						</urlsonda>
+						<idconv>
+							<label>Código de Comércio Eletrônico</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Código do convênio de Comércio Eletrônico fornecido pelo banco (número de 6 dígitos).</comment>
+						</idconv>
+						<reftran>
+							<label>Código de Cobrança</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>55</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Código do convênio de Cobrança fornecido pelo banco (número de 6 ou 7 dígitos).</comment>
+						</reftran>
+						<tppagamento>
+							<label>Modalidade de Pagamento</label>
+							<frontend_type>select</frontend_type>
+							<source_model>Quack_BB_Model_Source_TpPagamento</source_model>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</tppagamento>
+						<dtvenc>
+							<label>Prazo de Vencimento</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>70</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Número de dias para o vencimento do boleto. Esta opção será usada apenas se escolher boleto como forma de pagamento.</comment>
+						</dtvenc>
+						<msgloja>
+							<label>Mensagem do Boleto</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>75</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Mensagem apresentada no boleto de cobrança.</comment>
+						</msgloja>
+					  	<order_status translate="label">
+							<label>Status dos novos pedidos</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_order_status_new</source_model>
+					  		<sort_order>80</sort_order>
+					  		<show_in_default>1</show_in_default>
+					  		<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+			  		  	</order_status>
+						<allowspecific translate="label">
+							<label>Tipos de Países Permitidos</label>
+							<frontend_type>allowspecific</frontend_type>
+							<sort_order>90</sort_order>
+							<source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</allowspecific>
+						<specificcountry translate="label">
+							<label>Permitir Pagamento de Países Específicos</label>
+							<frontend_type>multiselect</frontend_type>
+							<sort_order>100</sort_order>
+							<source_model>adminhtml/system_config_source_country</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</specificcountry>
+						<min_order_total translate="label">
+							<label>Minimum Order Total</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>102</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</min_order_total>
+						<max_order_total translate="label">
+							<label>Maximum Order Total</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>108</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</max_order_total>
+						<sort_order translate="label">
+							<label>Sort order</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>110</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</sort_order>
+					</fields>
+                </bb_standard>
+            </groups>
+        </payment>       
+    </sections>
+</config>
