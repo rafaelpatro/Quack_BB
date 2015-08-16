@@ -9,4 +9,3 @@ before_script:
 
 script:
   - find ./app -name "*.php" -exec php -l {} \;
-  - ./bin/phpcs --extensions=php ./app
