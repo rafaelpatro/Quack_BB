@@ -4,6 +4,11 @@ Desenvolvido a partir do Manual de Orientações Técnicas, fornecido pelo Banco
 
 [![Build Status](https://travis-ci.org/rafaelpatro/Quack-BB.svg?style=flat)](https://travis-ci.org/rafaelpatro/Quack-BB)
 
+## Benefícios
+ - Receber pagamentos de forma automática, sem necessidade de confirmação manual.
+ - Livre de intermediários, ou gateways de pagamentos.
+ - Extensão completamente gratuita, sem propagandas, ou versões pagas.
+
 ## Compatibilidade
 Magento 1.4.x - 1.9.x
 
@@ -34,6 +39,9 @@ O logista ainda pode ver a situação do pagamento na página do pedido, e fatur
 ![image](https://cloud.githubusercontent.com/assets/13813964/9291554/059eec56-439e-11e5-997b-7762770ab451.png)
 
 O faturamento manual online do pedido só é concretizado caso o banco tenha recebido o pagamento. Caso contrário, o logista verá uma mensagem de erro.
+
+## Doadores
+ - Ajude a melhorar este projeto. Contribua com qualquer valor, e faça parte do projeto.
 
 ## Contribuições
  - [Contribuir com 1 real](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B3NHN3FQG4VDJ)
