@@ -34,3 +34,7 @@ O logista ainda pode ver a situação do pagamento na página do pedido, e fatur
 ![image](https://cloud.githubusercontent.com/assets/13813964/9291554/059eec56-439e-11e5-997b-7762770ab451.png)
 
 O faturamento manual online do pedido só é concretizado caso o banco tenha recebido o pagamento. Caso contrário, o logista verá uma mensagem de erro.
+
+## Contribuições
+ - [Contribuir com 1 real](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B3NHN3FQG4VDJ)
+ - [Contribuir com 5 reais](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2V5ZU4PN5QYY)
