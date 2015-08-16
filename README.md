@@ -16,9 +16,11 @@ Magento 1.4.x - 1.9.x
  - Ser cliente BB
  - Aderir ao regulamento do Comércio Eletrônico do BB
  - Formalizar os convênios para as modalidades de meio de pagamento escolhidas
- 
+
 ## Introdução
 Esta extensão tem por objetivo gerenciar pagamentos realizados através do convênio de comércio eletrônico do Banco do Brasil.
+
+[Instalação via Magento Connect](http://www.magentocommerce.com/magento-connect/catalog/product/view/id/29215/)
 
 Após a instalação, uma nova forma de pagamento fica disponível para configuração.
 ![image](https://cloud.githubusercontent.com/assets/13813964/9291502/8155073a-439a-11e5-96ba-1fb4cdebd3ca.png)
