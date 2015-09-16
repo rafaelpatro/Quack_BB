@@ -27,7 +27,8 @@
  * @var $this Mage_Payment_Block_Info
  */
 ?>
-<?php if ($this->getOrder()->getPayment()->getMethod() == 'bb_standard'): ?>
+<?php $method = $this->getOrder() ? $this->getOrder()->getPayment()->getMethod() : ''; ?>
+<?php if ($method == 'bb_standard'): ?>
 	<br />
 	<a href="<?php echo Mage::getUrl("bb/standard/redirect/order_id/{$this->getOrder()->getId()}") ?>">Efetuar Pagamento</a>
 	<br />
