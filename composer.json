@@ -1,9 +1,19 @@
 {
   "name" : "quack/bb",
   "description" : "Módulo de pagamento pelo Banco do Brasil, para Magento.",
-  "version" : "1.0.0",
+  "version" : "1.0.1",
+  "require" : {
+    "magento-hackathon/magento-composer-installer" : "*"
+  },
   "repositories" : [ {
     "type" : "composer",
     "url" : "https://packagist.org/"
+  } ],
+  "license" : "GPL-3.0",
+  "type" : "magento-module",
+  "homepage" : "https://github.com/rafaelpatro/Quack_BB",
+  "authors" : [ {
+    "name" : "Rafael Patro",
+    "email" : "rafaelpatro@gmail.com"
   } ]
 }

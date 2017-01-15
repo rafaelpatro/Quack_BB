@@ -20,18 +20,18 @@
  * @author     Rafael Patro <rafaelpatro@gmail.com>
  * @copyright  Copyright (c) 2015 Rafael Patro (rafaelpatro@gmail.com)
  * @license    http://www.gnu.org/licenses/gpl.txt
- * @link       https://github.com/rafaelpatro/Quack-BB
+ * @link       https://github.com/rafaelpatro/Quack_BB
  */
 
 class Quack_BB_Model_Source_TpPagamento {
-	public function toOptionArray() {
-		return array(
-			array('value' => '0', 'label' => '0 - Todas as modalidades contratadas pelo convenente'),
-			array('value' => '2', 'label' => '2 - Boleto Bancário'),
-			array('value' => '21','label' => '21 - 2ª via de Boleto Bancário, já gerado anteriormente'),
-			array('value' => '3', 'label' => '3 - Débito em Conta via Internet - PF e PJ'),
-			array('value' => '5', 'label' => '5 - BB Crediário Internet'),
-			array('value' => '7', 'label' => '7 - Débito em Conta via Internet PF'),
-		);
-	}
+    public function toOptionArray() {
+        return array(
+            array('value' => '0', 'label' => '0 - Todas as modalidades contratadas pelo convenente'),
+            array('value' => '2', 'label' => '2 - Boleto Bancário'),
+            array('value' => '21','label' => '21 - 2ª via de Boleto Bancário, já gerado anteriormente'),
+            array('value' => '3', 'label' => '3 - Débito em Conta via Internet - PF e PJ'),
+            array('value' => '5', 'label' => '5 - BB Crediário Internet'),
+            array('value' => '7', 'label' => '7 - Débito em Conta via Internet PF'),
+        );
+    }
 }

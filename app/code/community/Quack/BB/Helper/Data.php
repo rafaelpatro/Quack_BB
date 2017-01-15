@@ -20,66 +20,66 @@
  * @author     Rafael Patro <rafaelpatro@gmail.com>
  * @copyright  Copyright (c) 2015 Rafael Patro (rafaelpatro@gmail.com)
  * @license    http://www.gnu.org/licenses/gpl.txt
- * @link       https://github.com/rafaelpatro/Quack-BB
+ * @link       https://github.com/rafaelpatro/Quack_BB
  */
 
 class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
 {
-	public function getStatusMessage($status) {
-		$message = $this->__("undefined bank status %s", $status);
-		switch ($status) {
-			case '00': $message = $this->__("pagamento efetuado"); break;
-			case '01': $message = $this->__("pagamento não autorizado/transação recusada"); break;
-			case '03': $message = $this->__("pagamento não localizado"); break;
-			case '10': $message = $this->__("campo idConv inválido ou nulo"); break;
-			case '11': $message = $this->__("valor informado é inválido, nulo ou não confere com o valor registrado"); break;
-			case '21': $message = $this->__("pagamento web não autorizado"); break;
-			case '24': $message = $this->__("convênio não cadastrado"); break;
-			case '25': $message = $this->__("convênio não ativo"); break;
-			case '26': $message = $this->__("convênio não permite débito em conta"); break;
-			case '27': $message = $this->__("serviço inválido"); break;
-			case '28': $message = $this->__("boleto emitido"); break;
-			case '29': $message = $this->__("pagamento não efetuado"); break;
-			case '99': $message = $this->__("operação cancelada pelo cliente"); break;
-			case '02':
-			case '22': 
-			case '23':
-			case '30': $message = $this->__("erro no processamento da consulta"); break;
-		}
-		return $message;
-	}
-	
-	public function getTypeMessage($type) {
-		$message = $this->__("undefined bank method %s", $type);
-		switch ($type) {
-			case '0': $message = $this->__("payment not selected yet"); break;
-			case '21':
-			case '2': $message = $this->__("Bank Slip"); break;
-			case '3':
-			case '7': $message = $this->__("Online Debit"); break;
-			case '5': $message = $this->__("Installment Plan"); break;
-		}
-		return $message;
-	}
-	
-	public function strtoascii($str) {
-		setlocale(LC_ALL, 'pt_BR.utf8');
-		return iconv('UTF-8', 'ASCII//TRANSLIT', $str);
-	}
-	
-	public function getExpireDate($prazo) {
-		$tmCompra		= time();
-		$tmVencimento	= $tmCompra + ($prazo * 24 * 60 * 60);
-		$diaSemanaCompra		= date('N', $tmCompra);
-		$diaSemanaVencimento	= date('N', $tmVencimento);
-		if ($diaSemanaVencimento < $diaSemanaCompra
-				|| $diaSemanaVencimento == 6) {
-			$tmVencimento+= 2 * 24 * 60 * 60;
-		} elseif ($diaSemanaVencimento == 7) {
-			$tmVencimento+= 1 * 24 * 60 * 60;
-		}
-		$dtVenc = date('dmY', $tmVencimento);
-		return $dtVenc;
-	}
+    public function getStatusMessage($status) {
+        $message = $this->__("undefined bank status %s", $status);
+        switch ($status) {
+            case '00': $message = $this->__("pagamento efetuado"); break;
+            case '01': $message = $this->__("pagamento não autorizado/transação recusada"); break;
+            case '03': $message = $this->__("pagamento não localizado"); break;
+            case '10': $message = $this->__("campo idConv inválido ou nulo"); break;
+            case '11': $message = $this->__("valor informado é inválido, nulo ou não confere com o valor registrado"); break;
+            case '21': $message = $this->__("pagamento web não autorizado"); break;
+            case '24': $message = $this->__("convênio não cadastrado"); break;
+            case '25': $message = $this->__("convênio não ativo"); break;
+            case '26': $message = $this->__("convênio não permite débito em conta"); break;
+            case '27': $message = $this->__("serviço inválido"); break;
+            case '28': $message = $this->__("boleto emitido"); break;
+            case '29': $message = $this->__("pagamento não efetuado"); break;
+            case '99': $message = $this->__("operação cancelada pelo cliente"); break;
+            case '02':
+            case '22': 
+            case '23':
+            case '30': $message = $this->__("erro no processamento da consulta"); break;
+        }
+        return $message;
+    }
+    
+    public function getTypeMessage($type) {
+        $message = $this->__("undefined bank method %s", $type);
+        switch ($type) {
+            case '0': $message = $this->__("payment not selected yet"); break;
+            case '21':
+            case '2': $message = $this->__("Bank Slip"); break;
+            case '3':
+            case '7': $message = $this->__("Online Debit"); break;
+            case '5': $message = $this->__("Installment Plan"); break;
+        }
+        return $message;
+    }
+    
+    public function strtoascii($str) {
+        setlocale(LC_ALL, 'pt_BR.utf8');
+        return iconv('UTF-8', 'ASCII//TRANSLIT', $str);
+    }
+    
+    public function getExpireDate($prazo) {
+        $tmCompra        = time();
+        $tmVencimento    = $tmCompra + ($prazo * 24 * 60 * 60);
+        $diaSemanaCompra        = date('N', $tmCompra);
+        $diaSemanaVencimento    = date('N', $tmVencimento);
+        if ($diaSemanaVencimento < $diaSemanaCompra
+                || $diaSemanaVencimento == 6) {
+            $tmVencimento+= 2 * 24 * 60 * 60;
+        } elseif ($diaSemanaVencimento == 7) {
+            $tmVencimento+= 1 * 24 * 60 * 60;
+        }
+        $dtVenc = date('dmY', $tmVencimento);
+        return $dtVenc;
+    }
 }
 ?>
