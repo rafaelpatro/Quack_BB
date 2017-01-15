@@ -21,13 +21,13 @@
  * @author     Rafael Patro <rafaelpatro@gmail.com>
  * @copyright  Copyright (c) 2015 Rafael Patro (rafaelpatro@gmail.com)
  * @license    http://www.gnu.org/licenses/gpl.txt
- * @link       https://github.com/rafaelpatro/Quack-BB
+ * @link       https://github.com/rafaelpatro/Quack_BB
  */ 
 -->
 <config>
     <modules>
         <Quack_BB>
-            <version>1.0.0</version>          
+            <version>1.0.1</version>          
         </Quack_BB>
     </modules>
     <global>
@@ -37,12 +37,12 @@
                 <resourceModel>bb_mysql4</resourceModel>
             </bb>
         </models>
-		<helpers>
-			<bb>
-				<class>Quack_BB_Helper</class>
-			</bb>
-		</helpers>
-		 <resources>
+        <helpers>
+            <bb>
+                <class>Quack_BB_Helper</class>
+            </bb>
+        </helpers>
+         <resources>
             <bb_setup>
                 <setup>
                     <module>Quack_BB</module>
@@ -88,16 +88,23 @@
             </modules>
         </translate>
         <events>
-        	<payment_info_block_prepare_specific_information>
-        		<observers>
-        			<quack_bb_observer>
-        				<type>singleton</type>
-        				<class>Quack_BB_Model_Observer</class>
-        				<method>setFrontendPaymentInfo</method>
-        			</quack_bb_observer>
-        		</observers>
-        	</payment_info_block_prepare_specific_information>
+            <payment_info_block_prepare_specific_information>
+                <observers>
+                    <quack_bb_observer>
+                        <type>singleton</type>
+                        <class>Quack_BB_Model_Observer</class>
+                        <method>setFrontendPaymentInfo</method>
+                    </quack_bb_observer>
+                </observers>
+            </payment_info_block_prepare_specific_information>
         </events>
+        <layout>
+            <updates>
+                <Quack_BB>
+                    <file>bb.xml</file>
+                </Quack_BB>
+            </updates>
+        </layout>
     </frontend>
     <adminhtml>
         <translate>
@@ -110,15 +117,15 @@
             </modules>
         </translate>
         <events>
-        	<payment_info_block_prepare_specific_information>
-        		<observers>
-        			<quack_bb_observer>
-        				<type>singleton</type>
-        				<class>Quack_BB_Model_Observer</class>
-        				<method>setBackendPaymentInfo</method>
-        			</quack_bb_observer>
-        		</observers>
-        	</payment_info_block_prepare_specific_information>
+            <payment_info_block_prepare_specific_information>
+                <observers>
+                    <quack_bb_observer>
+                        <type>singleton</type>
+                        <class>Quack_BB_Model_Observer</class>
+                        <method>setBackendPaymentInfo</method>
+                    </quack_bb_observer>
+                </observers>
+            </payment_info_block_prepare_specific_information>
         </events>
     </adminhtml>
     <default>
@@ -129,19 +136,21 @@
                   <allowspecific>1</allowspecific>
                   <urlbb>https://mpag.bb.com.br/site/mpag/</urlbb>
                   <urlsonda>https://mpag.bb.com.br/site/mpag/REC3.jsp</urlsonda>
+                  <allowredirect>0</allowredirect>
+                  <allowbanktransfer>0</allowbanktransfer>
             </bb_standard>
         </payment>
     </default>
     <crontab>
-    	<jobs>
-    		<bb_status_check>
-    			<schedule>
-    				<cron_expr>*/10 * * * *</cron_expr>
-    			</schedule>
-    			<run>
-    				<model>bb/observer::checkPayment</model>
-    			</run>
-    		</bb_status_check>
-    	</jobs>
+        <jobs>
+            <bb_status_check>
+                <schedule>
+                    <cron_expr>*/10 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>bb/observer::checkPayment</model>
+                </run>
+            </bb_status_check>
+        </jobs>
     </crontab>
 </config>

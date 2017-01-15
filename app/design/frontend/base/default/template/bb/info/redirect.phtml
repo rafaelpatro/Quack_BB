@@ -20,7 +20,7 @@
  * @author     Rafael Patro <rafaelpatro@gmail.com>
  * @copyright  Copyright (c) 2015 Rafael Patro (rafaelpatro@gmail.com)
  * @license    http://www.gnu.org/licenses/gpl.txt
- * @link       https://github.com/rafaelpatro/Quack-BB
+ * @link       https://github.com/rafaelpatro/Quack_BB
  */
 
 /**
@@ -28,6 +28,10 @@
  */
 ?>
 <br />
-<button type="submit" title="Efetuar Pagamento" class="button" onclick="location.href='<?php echo $this->getPaymenturl() ?>'"><span><span>Efetuar Pagamento</span></span></button>
+<button type="submit" title="<?php echo Mage::helper('bb')->__('Pagar Online no Banco do Brasil') ?>" class="button" onclick="window.open('<?php echo $this->getPaymenturl() ?>')"><span><span><?php echo Mage::helper('bb')->__('Pagar Online no Banco do Brasil') ?></span></span></button>
+<?php if ($this->getAllowbanktransfer()): ?>
+<br />ou<br />
+<button type="submit" title="Pagar no Caixa" class="button" onclick="window.open('<?php echo Mage::helper('cms/page')->getPageUrl( $this->getCmsbanktransferpage() ) ?>')"><span><span>Pagar no Caixa (ver dados banc&aacute;rios)</span></span></button>
+<?php endif; ?>
 <br />
-<i>Se já realizou o pagamento, aguarde a compensação. Você receberá uma confirmação em breve.</i>
+<i><?php echo Mage::helper('bb')->__('Se já realizou o pagamento, aguarde a compensação. Você receberá uma confirmação em breve.') ?></i>

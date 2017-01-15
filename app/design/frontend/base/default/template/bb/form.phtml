@@ -20,7 +20,7 @@
  * @author     Rafael Patro <rafaelpatro@gmail.com>
  * @copyright  Copyright (c) 2015 Rafael Patro (rafaelpatro@gmail.com)
  * @license    http://www.gnu.org/licenses/gpl.txt
- * @link       https://github.com/rafaelpatro/Quack-BB
+ * @link       https://github.com/rafaelpatro/Quack_BB
  */
 
 /**
@@ -28,6 +28,5 @@
  */
 ?>
 <fieldset class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none">
-	<div><strong>Prossiga se tiver acesso a sua conta bancária pelo computador</strong></div>
-	<div>Caso contrário, escolha outra opção de pagamento, ou fale com seu gerente e solicite seu acesso.</div> 
+	<div><strong><?php echo Mage::helper('bb')->__('Prossiga para pagar atrav&eacute;s do Banco do Brasil') ?></strong></div>
 </fieldset>

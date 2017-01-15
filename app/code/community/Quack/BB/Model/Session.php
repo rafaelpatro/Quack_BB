@@ -20,7 +20,7 @@
  * @author     Rafael Patro <rafaelpatro@gmail.com>
  * @copyright  Copyright (c) 2015 Rafael Patro (rafaelpatro@gmail.com)
  * @license    http://www.gnu.org/licenses/gpl.txt
- * @link       https://github.com/rafaelpatro/Quack-BB
+ * @link       https://github.com/rafaelpatro/Quack_BB
  */
 
 class Quack_BB_Model_Session extends Mage_Core_Model_Session_Abstract

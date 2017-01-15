@@ -1,0 +1,42 @@
+<?php
+/**
+ * Este arquivo é parte do programa Quack BB
+ *
+ * Quack BB é um software livre; você pode redistribuí-lo e/ou
+ * modificá-lo dentro dos termos da Licença Pública Geral GNU como
+ * publicada pela Fundação do Software Livre (FSF); na versão 3 da
+ * Licença, ou (na sua opinião) qualquer versão.
+ *
+ * Este programa é distribuído na esperança de que possa ser  útil,
+ * mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO
+ * a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a
+ * Licença Pública Geral GNU para maiores detalhes.
+ *
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU junto
+ * com este programa, Se não, veja <http://www.gnu.org/licenses/>.
+ *
+ * @category   Quack
+ * @package    Quack_BB
+ * @author     Rafael Patro <rafaelpatro@gmail.com>
+ * @copyright  Copyright (c) 2015 Rafael Patro (rafaelpatro@gmail.com)
+ * @license    http://www.gnu.org/licenses/gpl.txt
+ * @link       https://github.com/rafaelpatro/Quack_BB
+ */
+
+/**
+ * @var $this Mage_Checkout_Block_Success
+ */
+?>
+<?php $order = Mage::getModel('sales/order')->loadByIncrementId($this->getParentBlock()->getOrderId()); ?>
+<?php if ($order->getPayment()->getMethod() == 'bb_standard'): ?>
+    <ul style="margin: 20px auto">
+        <?php if ($order->getPayment()->getMethodInstance()->getConfigData('allowbanktransfer') == 1): ?>
+        <li style="display: inline">
+            <button type="submit" title="Pagar no Caixa" class="button" onclick="window.open('<?php echo Mage::helper('cms/page')->getPageUrl( $order->getPayment()->getMethodInstance()->getConfigData('cms_banktransfer_page') ) ?>')"><span><span>Pagar no Caixa (ver dados banc&aacute;rios)</span></span></button>
+        </li>
+        <?php endif; ?>
+        <li style="display: inline">
+            <button type="submit" title="Pagar Online no Banco do Brasil" class="button" onclick="window.open('<?php echo Mage::getUrl("bb/standard/redirect/order_id/{$order->getId()}") ?>')"><span><span>Pagar Online no Banco do Brasil</span></span></button>
+        </li>
+    </ul>
+<?php endif; ?>

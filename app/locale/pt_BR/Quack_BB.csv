@@ -1,6 +1,6 @@
 "Bank Method","Método"
 "Bank Status","Situação"
-"For BB clients only",".::Exclusivo para correntista BB:"
+"For BB clients only",".::Transação bancária via Banco do Brasil:"
 "Payment auto captured","Pagamento capturado automaticamente"
 "undefined bank status %s","situação desconhecida %s"
 "undefined bank method %s","Débito Online %s"
