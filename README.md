@@ -2,7 +2,7 @@
 Módulo de pagamentos Banco do Brasil para Magento.
 Desenvolvido a partir do Manual de Orientações Técnicas, fornecido pelo Banco do Brasil.
 
-[![Build Status](https://travis-ci.org/rafaelpatro/Quack-BB.svg?style=flat)](https://travis-ci.org/rafaelpatro/Quack-BB)
+[![Build Status](https://travis-ci.org/rafaelpatro/Quack_BB.svg?style=flat)](https://travis-ci.org/rafaelpatro/Quack_BB)
 
 ## Benefícios
  - Receber pagamentos de forma automática, sem necessidade de confirmação manual.
