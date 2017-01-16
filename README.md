@@ -4,6 +4,11 @@ Desenvolvido a partir do Manual de Orientações Técnicas, fornecido pelo Banco
 
 [![Build Status](https://travis-ci.org/rafaelpatro/Quack_BB.svg?style=flat)](https://travis-ci.org/rafaelpatro/Quack_BB)
 
+## Veja também outras integrações
+ - [Itaú Shopline](https://github.com/rafaelpatro/Quack_Itau)
+ - [Bradesco](https://github.com/rafaelpatro/Quack_Bradesco)
+ - [Cielo](https://github.com/rafaelpatro/Quack_Cielo)
+ 
 ## Benefícios
  - Receber pagamentos de forma automática, sem necessidade de confirmação manual.
  - Livre de intermediários, ou gateways de pagamentos.
