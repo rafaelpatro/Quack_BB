@@ -160,7 +160,7 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
                 ->setTpDuplicata($this->getConfigData('tpDuplicata'))
                 ->setNome(substr($addr->getFirstname() . ' ' . $addr->getLastname(), 0, 60))
                 ->setEndereco(substr($addr->getStreetFull(), 0, 60))
-                ->setCidade($addr->getCity())
+                ->setCidade($this->getHelper()->getFormattedCity($addr))
                 ->setUf($addr->getRegionCode())
                 ->setCep($addr->getPostcode())
                 ->setMsgLoja($this->getConfigData('msgloja'));

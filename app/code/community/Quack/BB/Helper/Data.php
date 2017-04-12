@@ -81,5 +81,14 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
         $dtVenc = date('dmY', $tmVencimento);
         return $dtVenc;
     }
+    
+    public function getFormattedCity($addr) {
+        $city = strtoupper($addr->getCity());
+        $city = preg_replace('/[^A-Z\'\-\s]/g', '', $city);
+        $city = preg_replace('/[\s\'\-]{2,}/g', ' ', $city);
+        $city = trim($city);
+        $city = substr($city, 0, 18);
+        return $city;
+    }
 }
 ?>
