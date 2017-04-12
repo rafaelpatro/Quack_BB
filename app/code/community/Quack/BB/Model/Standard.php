@@ -134,16 +134,14 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
         $idConv  = substr($this->getConfigData('idconv'), 0, 6);
         $refTran = $this->getConfigData('reftran').sprintf("%010d", $order->getEntityId());
         $refTran = substr($refTran, 0, 17);
-        $valor   = number_format($order->getGrandTotal(), 2, '', '');
-        $dtVenc  = date('dmY');
         
         /* @var $request Quack_BB_Model_Request */
         $request = Mage::getModel('bb/request');
         $request
             ->setIdConv($idConv)
             ->setRefTran($refTran)
-            ->setValor($valor)
-            ->setDtVenc($dtVenc)
+            ->setValor($this->getHelper()->getFormattedAmount($order))
+            ->setDtVenc(date('dmY'))
             ->setTpPagamento($this->getConfigData('tppagamento'))
             ->setUrlRetorno($this->getConfigData('urlretorno'));
 
