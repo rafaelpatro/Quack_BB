@@ -145,7 +145,7 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
             ->setTpPagamento($this->getConfigData('tppagamento'))
             ->setUrlRetorno($this->getConfigData('urlretorno'));
 
-        $isBoleto = ($request->getTpPagamento() == '2' || $request->getTpPagamento() == '21');
+        $isBoleto = in_array($request->getTpPagamento(), array('0', '2', '21'));
         if ($isBoleto) {
             $dtVenc = $this->getHelper()->getExpirationDate(date('Y-m-d'), $this->getConfigData('dtvenc'));
             $digits = new Zend_Filter_Digits();
