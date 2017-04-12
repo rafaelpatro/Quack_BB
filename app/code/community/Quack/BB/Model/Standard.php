@@ -149,16 +149,19 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
 
         $isBoleto = ($request->getTpPagamento() == '2' || $request->getTpPagamento() == '21');
         if ($isBoleto) {
-            $dtVenc = $this->getHelper()->getExpirationDate(date('Y-m-d'), $this->getConfigData('dtvenc') );
+            $dtVenc = $this->getHelper()->getExpirationDate(date('Y-m-d'), $this->getConfigData('dtvenc'));
             $digits = new Zend_Filter_Digits();
             $cpfCnpj = $digits->filter($order->getData('customer_taxvat'));
             $indPessoa = (strlen($cpfCnpj) == 11) ? '1' : '2';
+            $name = $this->getHelper()->getFormattedCustomerName($addr);
+            if ($indPessoa=1)
+                $name = $this->getHelper()->getFormattedCompanyName($addr);
             $request
                 ->setDtVenc($dtVenc)
                 ->setCpfCnpj($cpfCnpj)
                 ->setIndicadorPessoa($indPessoa)
                 ->setTpDuplicata($this->getConfigData('tpDuplicata'))
-                ->setNome(substr($addr->getFirstname() . ' ' . $addr->getLastname(), 0, 60))
+                ->setNome($name)
                 ->setEndereco($this->getHelper()->getFormattedAddress($addr))
                 ->setCidade($this->getHelper()->getFormattedCity($addr))
                 ->setUf($addr->getRegionCode())

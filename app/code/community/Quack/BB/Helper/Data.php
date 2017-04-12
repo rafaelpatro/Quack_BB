@@ -96,5 +96,25 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
         $streetFull = substr($streetFull, 0, 60);
         return $streetFull;
     }
+    
+    public function getFormattedCustomerName($addr) {
+        $name = "{$addr->getFirstname()} {$addr->getLastname()}";
+        $name = $this->getFormattedName($name);
+        return $name;
+    }
+    
+    public function getFormattedCompanyName($addr) {
+        $name = $addr->getCompany();
+        $name = $this->getFormattedName($name);
+        return $name;
+    }
+    
+    public function getFormattedName($name) {
+        $name = strtoupper($name);
+        $name = preg_replace('/[^A-Z\'\-\s]/g', '', $name);
+        $name = preg_replace('/[\s\'\-]{2,}/g', ' ', $name);
+        $name = substr($name, 0, 60);
+        return $name;
+    }
 }
 ?>
