@@ -162,7 +162,7 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
                 ->setEndereco(substr($addr->getStreetFull(), 0, 60))
                 ->setCidade($this->getHelper()->getFormattedCity($addr))
                 ->setUf($addr->getRegionCode())
-                ->setCep($addr->getPostcode())
+                ->setCep($this->getHelper()->getFormattedPostcode($addr))
                 ->setMsgLoja($this->getConfigData('msgloja'));
             // TODO: valorDesconto
             // TODO: dataLimiteDesconto

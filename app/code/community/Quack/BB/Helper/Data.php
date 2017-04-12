@@ -81,5 +81,12 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
         $city = substr($city, 0, 18);
         return $city;
     }
+    
+    public function getFormattedPostcode($addr) {
+        $postcode = $addr->getPostcode();
+        $postcode = preg_replace('/[^\d]/g', '', $postcode);
+        $postcode = substr($postcode, 0, 8);
+        return $postcode;
+    }
 }
 ?>
