@@ -67,19 +67,10 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
         return iconv('UTF-8', 'ASCII//TRANSLIT', $str);
     }
     
-    public function getExpireDate($prazo) {
-        $tmCompra        = time();
-        $tmVencimento    = $tmCompra + ($prazo * 24 * 60 * 60);
-        $diaSemanaCompra        = date('N', $tmCompra);
-        $diaSemanaVencimento    = date('N', $tmVencimento);
-        if ($diaSemanaVencimento < $diaSemanaCompra
-                || $diaSemanaVencimento == 6) {
-            $tmVencimento+= 2 * 24 * 60 * 60;
-        } elseif ($diaSemanaVencimento == 7) {
-            $tmVencimento+= 1 * 24 * 60 * 60;
-        }
-        $dtVenc = date('dmY', $tmVencimento);
-        return $dtVenc;
+    public function getExpirationDate($date, $deadline) {
+        $time = new DateTime($date);
+        $time->add(new DateInterval("P{$deadline}D"));
+        return $time->format('dmY');
     }
     
     public function getFormattedCity($addr) {
