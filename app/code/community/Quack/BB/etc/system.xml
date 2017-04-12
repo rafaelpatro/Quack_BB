@@ -116,6 +116,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </tppagamento>
+                        <tpduplicata>
+                            <label>Tipo de Boleto</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Quack_BB_Model_Source_TpDuplicata</source_model>
+                            <sort_order>85</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </tpduplicata>
                         <dtvenc>
                             <label>Prazo de Vencimento</label>
                             <frontend_type>text</frontend_type>

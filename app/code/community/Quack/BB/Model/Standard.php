@@ -24,20 +24,20 @@
  */
 
 class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
-    
+
     const PAYMENT_TYPE_AUTH = 'AUTHORIZATION';
     const PAYMENT_TYPE_SALE = 'SALE';
 
     protected $_code  = 'bb_standard';
     protected $_formBlockType = 'bb/form';
     protected $_allowCurrencyCode = array('BRL');
-    
-      protected $_canUseInternal = true;
-      protected $_canCapture = true;
-      protected $_canUseForMultishipping = true;
-      
-      protected $_order = null;
-    
+
+    protected $_canUseInternal = true;
+    protected $_canCapture = true;
+    protected $_canUseForMultishipping = true;
+
+    protected $_order = null;
+
     public function getSession() {
         return Mage::getSingleton('bb/session');
     }
@@ -129,30 +129,53 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
     public function getRedirectFields() {
         $this->log("Quack_BB_Model_Standard::getRedirectFields() started");
         $order = $this->getOrder();
-        $a = $order->getBillingAddress();
-        $tpPagamento = $this->getConfigData('tppagamento');
-        $dtVenc = date('dmY');
-        $isBoleto = ($tpPagamento == '2' || $tpPagamento == '21');
+        $addr  = $order->getBillingAddress();
+        
+        $idConv  = substr($this->getConfigData('idconv'), 0, 6);
+        $refTran = $this->getConfigData('reftran').sprintf("%010d", $order->getEntityId());
+        $refTran = substr($refTran, 0, 17);
+        $valor   = number_format($order->getGrandTotal(), 2, '', '');
+        $dtVenc  = date('dmY');
+        
+        /* @var $request Quack_BB_Model_Request */
+        $request = Mage::getModel('bb/request');
+        $request
+            ->setIdConv($idConv)
+            ->setRefTran($refTran)
+            ->setValor($valor)
+            ->setDtVenc($dtVenc)
+            ->setTpPagamento($this->getConfigData('tppagamento'))
+            ->setUrlRetorno($this->getConfigData('urlretorno'));
+
+        $isBoleto = ($request->getTpPagamento() == '2' || $request->getTpPagamento() == '21');
         if ($isBoleto) {
             $dtVenc = $this->getHelper()->getExpireDate( $this->getConfigData('dtvenc') );
+            $digits = new Zend_Filter_Digits();
+            $cpfCnpj = $digits->filter($order->getData('customer_taxvat'));
+            $indPessoa = (strlen($cpfCnpj) == 11) ? '1' : '2';
+            $request
+                ->setDtVenc($dtVenc)
+                ->setCpfCnpj($cpfCnpj)
+                ->setIndicadorPessoa($indPessoa)
+                ->setTpDuplicata($this->getConfigData('tpDuplicata'))
+                ->setNome(substr($addr->getFirstname() . ' ' . $addr->getLastname(), 0, 60))
+                ->setEndereco(substr($addr->getStreetFull(), 0, 60))
+                ->setCidade($addr->getCity())
+                ->setUf($addr->getRegionCode())
+                ->setCep($addr->getPostcode())
+                ->setMsgLoja($this->getConfigData('msgloja'));
+            // TODO: valorDesconto
+            // TODO: dataLimiteDesconto
         }
-        $refTran = $this->getConfigData('reftran').sprintf("%010d", $order->getEntityId());
-        $valor   = number_format($order->getGrandTotal(), 2, '', '');
-          $post = array(
-              'idConv'        => $this->getConfigData('idconv'),
-            'refTran'         => $refTran,
-              'valor'            => $valor,
-              'dtVenc'        => $dtVenc,
-              'tpPagamento'    => $tpPagamento,
-              'urlRetorno'    => $this->getConfigData('urlretorno'),
-            'nome'            => $a->getFirstname() . ' ' . $a->getLastname(),
-            'endereco'      => $a->getStreetFull(),
-            'cidade'        => $a->getCity(),
-            'uf'            => $a->getRegionCode(),
-            'cep'            => $a->getPostcode(),
-              'msgLoja'        => $this->getConfigData('msgloja'),
-        );
-        return $post;
+        
+        /*if ($this->getConfigData('pontopravoce') == 1) {
+            $isPF = (strlen($request->getCpfCnpj()) == 11);
+            $request->setTpPagamento($isPF ? '61' : '62');
+            $refTran = $this->getConfigData('idPontopravoce').sprintf("%08d", $order->getEntityId());
+            $request->setRefTran($refTran);
+        }*/
+        
+        return (array)$request;
     }
 
     public function getRequestUrl() {

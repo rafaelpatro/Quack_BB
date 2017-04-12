@@ -138,6 +138,7 @@
                   <urlsonda>https://mpag.bb.com.br/site/mpag/REC3.jsp</urlsonda>
                   <allowredirect>0</allowredirect>
                   <allowbanktransfer>0</allowbanktransfer>
+                  <tpduplicata>DM</tpduplicata>
             </bb_standard>
         </payment>
     </default>
