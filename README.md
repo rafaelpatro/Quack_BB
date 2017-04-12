@@ -48,3 +48,4 @@ O faturamento manual online do pedido só é concretizado caso o banco tenha rec
 ## Contribuições
  - [Contribuir com 1 real](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B3NHN3FQG4VDJ)
  - [Contribuir com 5 reais](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2V5ZU4PN5QYY)
+ - [Contribuir com qualquer valor](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G96XYMZU65MYS)
