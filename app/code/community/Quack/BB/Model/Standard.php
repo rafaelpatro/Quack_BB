@@ -171,7 +171,7 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
                 ->setDtVenc($dtVenc)
                 ->setCpfCnpj($cpfCnpj)
                 ->setIndicadorPessoa($indPessoa)
-                ->setTpDuplicata($this->getConfigData('tpDuplicata'))
+                ->setTpDuplicata($this->getConfigData('tpduplicata'))
                 ->setNome($name)
                 ->setEndereco($this->getHelper()->getFormattedAddress($addr))
                 ->setCidade($this->getHelper()->getFormattedCity($addr))
