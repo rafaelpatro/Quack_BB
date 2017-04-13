@@ -52,12 +52,20 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     public function getTypeMessage($type) {
         $message = $this->__("undefined bank method %s", $type);
         switch ($type) {
-            case '0': $message = $this->__("payment not selected yet"); break;
-            case '21':
-            case '2': $message = $this->__("Bank Slip"); break;
-            case '3':
-            case '7': $message = $this->__("Online Debit"); break;
-            case '5': $message = $this->__("Installment Plan"); break;
+            case Quack_BB_Model_Source_TpPagamento::NOT_SET :
+                $message = $this->__("payment not selected yet");
+                break;
+            case Quack_BB_Model_Source_TpPagamento::BANK_SLIP_DUPLICATE :
+            case Quack_BB_Model_Source_TpPagamento::BANK_SLIP :
+                $message = $this->__("Bank Slip");
+                break;
+            case Quack_BB_Model_Source_TpPagamento::ONLINE_DEBIT :
+            case Quack_BB_Model_Source_TpPagamento::ONLINE_DEBIT_FISICAL :
+                $message = $this->__("Online Debit");
+                break;
+            case Quack_BB_Model_Source_TpPagamento::INSTALLMENT_PLAN :
+                $message = $this->__("Installment Plan");
+                break;
         }
         return $message;
     }
