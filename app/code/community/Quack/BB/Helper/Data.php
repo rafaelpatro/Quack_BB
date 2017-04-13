@@ -117,8 +117,8 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
         return $name;
     }
     
-    public function getFormattedAmount($order) {
-        $amount = number_format($order->getGrandTotal(), 2, '', '');
+    public function getFormattedAmount($amount) {
+        $amount = number_format($amount, 2, '', '');
         return $amount;
     }
 }

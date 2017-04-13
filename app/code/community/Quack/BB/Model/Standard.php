@@ -140,7 +140,7 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
         $request
             ->setIdConv($idConv)
             ->setRefTran($refTran)
-            ->setValor($this->getHelper()->getFormattedAmount($order))
+            ->setValor($this->getHelper()->getFormattedAmount($order->getGrandTotal()))
             ->setDtVenc(date('dmY'))
             ->setTpPagamento($this->getConfigData('tppagamento'))
             ->setUrlRetorno($this->getConfigData('urlretorno'));
@@ -165,8 +165,19 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
                 ->setUf($addr->getRegionCode())
                 ->setCep($this->getHelper()->getFormattedPostcode($addr))
                 ->setMsgLoja($this->getConfigData('msgloja'));
-            // TODO: valorDesconto
-            // TODO: dataLimiteDesconto
+
+            $isDiscountActive = ($order->getDiscountAmount() > 0);
+            $isDiscountActive&= ($this->getConfigData('valordesconto') == 1);
+            if ($isDiscountActive) {
+                $newTotal = $order->getGrandTotal() + $order->getDiscountAmount();
+                $newTotal = $this->getHelper()->getFormattedAmount($newTotal);
+                $request->setValor($newTotal);
+                $discount = $this->getHelper()->getFormattedAmount($order->getDiscountAmount());
+                $request->setValorDesconto($discount);
+                $dataLimiteDesconto = $this->getHelper()
+                    ->getExpirationDate(date('Y-m-d'), $this->getConfigData('datalimitedesconto'));
+                $request->setDataLimiteDesconto($dataLimiteDesconto);
+            }
         }
         
         /*if ($this->getConfigData('pontopravoce') == 1) {
