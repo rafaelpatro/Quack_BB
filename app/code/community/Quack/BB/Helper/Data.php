@@ -91,8 +91,9 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getFormattedAddress($addr) {
         $streetFull = strtoupper($addr->getStreetFull());
-        $streetFull = preg_replace('/[^0-9A-Z\'\- ]/', '', $streetFull);
+        $streetFull = preg_replace('/[^0-9A-Z\'\-\s]/', '', $streetFull);
         $streetFull = preg_replace('/[\s\'\-]{2,}/', ' ', $streetFull);
+        $streetFull = preg_replace('/[\n\r\t]/', ' ', $streetFull);
         $streetFull = substr($streetFull, 0, 60);
         return $streetFull;
     }
