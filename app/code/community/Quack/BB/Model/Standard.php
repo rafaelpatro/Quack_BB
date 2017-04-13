@@ -128,7 +128,7 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
             $method = $this->getInfoInstance()->getAdditionalInformation('paymentType');
             $status = $this->getInfoInstance()->getAdditionalInformation('paymentStatus');
             if ($method == Quack_BB_Model_Source_TpPagamento::BANK_SLIP
-                && $status == '28') {
+                && $status == Quack_BB_Model_Source_Situacao::DOC_ISSUED) {
                 $tpPagamento = Quack_BB_Model_Source_TpPagamento::BANK_SLIP_DUPLICATE;
             }
         } catch (Exception $e) {
