@@ -131,7 +131,7 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
                 && $status == Quack_BB_Model_Source_Situacao::DOC_ISSUED) {
                 $tpPagamento = Quack_BB_Model_Source_TpPagamento::BANK_SLIP_DUPLICATE;
             }
-        } catch (Exception $e) {
+        } catch (Exception $e) {    
         }
         return $tpPagamento;
     }
@@ -192,8 +192,6 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
                 $request->setDataLimiteDesconto($dataLimiteDesconto);
             }
         }
-        
-        Mage::log(print_r($request, true));
         
         /*if ($this->getConfigData('pontopravoce') == 1) {
             $isPF = (strlen($request->getCpfCnpj()) == 11);
