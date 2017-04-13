@@ -75,8 +75,8 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getFormattedCity($addr) {
         $city = strtoupper($addr->getCity());
-        $city = preg_replace('/[^A-Z\'\-\s]/g', '', $city);
-        $city = preg_replace('/[\s\'\-]{2,}/g', ' ', $city);
+        $city = preg_replace('/[^A-Z\'\-\s]/', '', $city);
+        $city = preg_replace('/[\s\'\-]{2,}/', ' ', $city);
         $city = trim($city);
         $city = substr($city, 0, 18);
         return $city;
@@ -84,15 +84,15 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getFormattedPostcode($addr) {
         $postcode = $addr->getPostcode();
-        $postcode = preg_replace('/[^\d]/g', '', $postcode);
+        $postcode = preg_replace('/[^\d]/', '', $postcode);
         $postcode = substr($postcode, 0, 8);
         return $postcode;
     }
     
     public function getFormattedAddress($addr) {
         $streetFull = strtoupper($addr->getStreetFull());
-        $streetFull = preg_replace('/[^0-9A-Z\'\-\s]/g', '', $streetFull);
-        $streetFull = preg_replace('/[\s\'\-]{2,}/g', ' ', $streetFull);
+        $streetFull = preg_replace('/[^0-9A-Z\'\-\s]/', '', $streetFull);
+        $streetFull = preg_replace('/[\s\'\-]{2,}/', ' ', $streetFull);
         $streetFull = substr($streetFull, 0, 60);
         return $streetFull;
     }
@@ -123,8 +123,8 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getFormattedName($name) {
         $name = strtoupper($name);
-        $name = preg_replace('/[^A-Z\'\-\s]/g', '', $name);
-        $name = preg_replace('/[\s\'\-]{2,}/g', ' ', $name);
+        $name = preg_replace('/[^A-Z\'\-\s]/', '', $name);
+        $name = preg_replace('/[\s\'\-]{2,}/', ' ', $name);
         $name = substr($name, 0, 60);
         return $name;
     }
