@@ -24,6 +24,14 @@
  */
 
 class Quack_BB_Model_Source_TpPagamento {
+    
+    const NOT_SET              = '0';
+    const BANK_SLIP            = '2';
+    const BANK_SLIP_DUPLICATE  = '21';
+    const ONLINE_DEBIT         = '3';
+    const INSTALLMENT_PLAN     = '5';
+    const ONLINE_DEBIT_FISICAL = '7';
+    
     public function toOptionArray() {
         return array(
             array('value' => '0', 'label' => '0 - Todas as modalidades contratadas pelo convenente'),

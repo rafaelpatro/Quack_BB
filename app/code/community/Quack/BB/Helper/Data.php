@@ -28,23 +28,51 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     public function getStatusMessage($status) {
         $message = $this->__("undefined bank status %s", $status);
         switch ($status) {
-            case '00': $message = $this->__("pagamento efetuado"); break;
-            case '01': $message = $this->__("pagamento não autorizado/transação recusada"); break;
-            case '03': $message = $this->__("pagamento não localizado"); break;
-            case '10': $message = $this->__("campo idConv inválido ou nulo"); break;
-            case '11': $message = $this->__("valor informado é inválido, nulo ou não confere com o valor registrado"); break;
-            case '21': $message = $this->__("pagamento web não autorizado"); break;
-            case '24': $message = $this->__("convênio não cadastrado"); break;
-            case '25': $message = $this->__("convênio não ativo"); break;
-            case '26': $message = $this->__("convênio não permite débito em conta"); break;
-            case '27': $message = $this->__("serviço inválido"); break;
-            case '28': $message = $this->__("boleto emitido"); break;
-            case '29': $message = $this->__("pagamento não efetuado"); break;
-            case '99': $message = $this->__("operação cancelada pelo cliente"); break;
-            case '02':
-            case '22': 
-            case '23':
-            case '30': $message = $this->__("erro no processamento da consulta"); break;
+            case Quack_BB_Model_Source_Situacao::RECEIVED:
+                $message = $this->__("pagamento efetuado");
+                break;
+            case Quack_BB_Model_Source_Situacao::REJECTED:
+                $message = $this->__("pagamento não autorizado/transação recusada");
+                break;
+            case Quack_BB_Model_Source_Situacao::NOT_FOUND:
+                $message = $this->__("pagamento não localizado");
+                break;
+            case Quack_BB_Model_Source_Situacao::INVALID_ID:
+                $message = $this->__("campo idConv inválido ou nulo");
+                break;
+            case Quack_BB_Model_Source_Situacao::INVALID_VALUE:
+                $message = $this->__("valor informado é inválido, nulo ou não confere com o valor registrado");
+                break;
+            case Quack_BB_Model_Source_Situacao::UNAUTHORIZED:
+                $message = $this->__("pagamento web não autorizado");
+                break;
+            case Quack_BB_Model_Source_Situacao::NOT_FOUND_ID:
+                $message = $this->__("convênio não cadastrado");
+                break;
+            case Quack_BB_Model_Source_Situacao::INACTIVE_ID:
+                $message = $this->__("convênio não ativo");
+                break;
+            case Quack_BB_Model_Source_Situacao::DISALLOWED_DEBIT:
+                $message = $this->__("convênio não permite débito em conta");
+                break;
+            case Quack_BB_Model_Source_Situacao::INVALID_METHOD:
+                $message = $this->__("serviço inválido");
+                break;
+            case Quack_BB_Model_Source_Situacao::DOC_ISSUED:
+                $message = $this->__("boleto emitido");
+                break;
+            case Quack_BB_Model_Source_Situacao::NOT_RECEIVED:
+                $message = $this->__("pagamento não efetuado");
+                break;
+            case Quack_BB_Model_Source_Situacao::CANCELLED:
+                $message = $this->__("operação cancelada pelo cliente");
+                break;
+            case Quack_BB_Model_Source_Situacao::PROCESSING_ERROR_02:
+            case Quack_BB_Model_Source_Situacao::PROCESSING_ERROR_22: 
+            case Quack_BB_Model_Source_Situacao::PROCESSING_ERROR_23:
+            case Quack_BB_Model_Source_Situacao::PROCESSING_ERROR_30:
+                $message = $this->__("erro no processamento da consulta");
+                break;
         }
         return $message;
     }
@@ -52,12 +80,20 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     public function getTypeMessage($type) {
         $message = $this->__("undefined bank method %s", $type);
         switch ($type) {
-            case '0': $message = $this->__("payment not selected yet"); break;
-            case '21':
-            case '2': $message = $this->__("Bank Slip"); break;
-            case '3':
-            case '7': $message = $this->__("Online Debit"); break;
-            case '5': $message = $this->__("Installment Plan"); break;
+            case Quack_BB_Model_Source_TpPagamento::NOT_SET :
+                $message = $this->__("payment not selected yet");
+                break;
+            case Quack_BB_Model_Source_TpPagamento::BANK_SLIP_DUPLICATE :
+            case Quack_BB_Model_Source_TpPagamento::BANK_SLIP :
+                $message = $this->__("Bank Slip");
+                break;
+            case Quack_BB_Model_Source_TpPagamento::ONLINE_DEBIT :
+            case Quack_BB_Model_Source_TpPagamento::ONLINE_DEBIT_FISICAL :
+                $message = $this->__("Online Debit");
+                break;
+            case Quack_BB_Model_Source_TpPagamento::INSTALLMENT_PLAN :
+                $message = $this->__("Installment Plan");
+                break;
         }
         return $message;
     }
@@ -67,19 +103,84 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
         return iconv('UTF-8', 'ASCII//TRANSLIT', $str);
     }
     
-    public function getExpireDate($prazo) {
-        $tmCompra        = time();
-        $tmVencimento    = $tmCompra + ($prazo * 24 * 60 * 60);
-        $diaSemanaCompra        = date('N', $tmCompra);
-        $diaSemanaVencimento    = date('N', $tmVencimento);
-        if ($diaSemanaVencimento < $diaSemanaCompra
-                || $diaSemanaVencimento == 6) {
-            $tmVencimento+= 2 * 24 * 60 * 60;
-        } elseif ($diaSemanaVencimento == 7) {
-            $tmVencimento+= 1 * 24 * 60 * 60;
-        }
-        $dtVenc = date('dmY', $tmVencimento);
-        return $dtVenc;
+    public function getExpirationDate($date, $deadline) {
+        $time = new DateTime($date);
+        $time->add(new DateInterval("P{$deadline}D"));
+        return $time->format('dmY');
+    }
+    
+    public function getFormattedCity($addr) {
+        $city = strtoupper($addr->getCity());
+        $city = $this->strtoascii($city);
+        $city = preg_replace('/[^A-Z\'\-\s]/', '', $city);
+        $city = preg_replace('/[\s\'\-]{2,}/', ' ', $city);
+        $city = preg_replace('/[\n\r\t]/', ' ', $city);
+        $city = trim($city);
+        $city = substr($city, 0, 18);
+        return $city;
+    }
+    
+    public function getFormattedPostcode($addr) {
+        $postcode = $addr->getPostcode();
+        $postcode = preg_replace('/[^\d]/', '', $postcode);
+        $postcode = substr($postcode, 0, 8);
+        return $postcode;
+    }
+    
+    public function getFormattedAddress($addr) {
+        $streetFull = strtoupper($addr->getStreetFull());
+        $streetFull = $this->strtoascii($streetFull);
+        $streetFull = preg_replace('/[^0-9A-Z\'\-\s]/', '', $streetFull);
+        $streetFull = preg_replace('/[\s\'\-]{2,}/', ' ', $streetFull);
+        $streetFull = preg_replace('/[\n\r\t]/', ' ', $streetFull);
+        $streetFull = substr($streetFull, 0, 60);
+        return $streetFull;
+    }
+    
+    /**
+     * Retrieve formatted Name by order address
+     * 
+     * @param Mage_Sales_Model_Order_Address $addr
+     * @return string
+     */
+    public function getFormattedCustomerName($addr) {
+        $name = "{$addr->getFirstname()} {$addr->getLastname()}";
+        $name = $this->getFormattedName($name);
+        return $name;
+    }
+
+    /**
+     * Retrieve formatted Company by order address
+     *
+     * @param Mage_Sales_Model_Order_Address $addr
+     * @return string
+     */
+    public function getFormattedCompanyName($addr) {
+        $name = $addr->getFirstname();
+        $name = $this->getFormattedName($name);
+        return $name;
+    }
+    
+    public function getFormattedName($name) {
+        $name = strtoupper($name);
+        $name = $this->strtoascii($name);
+        $name = preg_replace('/[^A-Z\'\-\s]/', '', $name);
+        $name = preg_replace('/[\s\'\-]{2,}/', ' ', $name);
+        $name = substr($name, 0, 60);
+        return $name;
+    }
+    
+    public function getFormattedAmount($amount) {
+        $amount = number_format($amount, 2, '', '');
+        return $amount;
+    }
+    
+    public function isBankSlipAvailable($type) {
+        return in_array($type, array(
+            Quack_BB_Model_Source_TpPagamento::NOT_SET,
+            Quack_BB_Model_Source_TpPagamento::BANK_SLIP,
+            Quack_BB_Model_Source_TpPagamento::BANK_SLIP_DUPLICATE
+        ));
     }
 }
 ?>

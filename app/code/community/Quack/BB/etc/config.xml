@@ -27,7 +27,7 @@
 <config>
     <modules>
         <Quack_BB>
-            <version>1.0.1</version>          
+            <version>2.0.0</version>          
         </Quack_BB>
     </modules>
     <global>
@@ -138,6 +138,10 @@
                   <urlsonda>https://mpag.bb.com.br/site/mpag/REC3.jsp</urlsonda>
                   <allowredirect>0</allowredirect>
                   <allowbanktransfer>0</allowbanktransfer>
+                  <tppagamento>0</tppagamento>
+                  <tpduplicata>DM</tpduplicata>
+                  <valordesconto>0</valordesconto>
+                  <datalimitedesconto>1</datalimitedesconto>
             </bb_standard>
         </payment>
     </default>

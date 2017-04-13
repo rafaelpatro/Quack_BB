@@ -24,20 +24,20 @@
  */
 
 class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
-    
+
     const PAYMENT_TYPE_AUTH = 'AUTHORIZATION';
     const PAYMENT_TYPE_SALE = 'SALE';
 
     protected $_code  = 'bb_standard';
     protected $_formBlockType = 'bb/form';
     protected $_allowCurrencyCode = array('BRL');
-    
-      protected $_canUseInternal = true;
-      protected $_canCapture = true;
-      protected $_canUseForMultishipping = true;
-      
-      protected $_order = null;
-    
+
+    protected $_canUseInternal = true;
+    protected $_canCapture = true;
+    protected $_canUseForMultishipping = true;
+
+    protected $_order = null;
+
     public function getSession() {
         return Mage::getSingleton('bb/session');
     }
@@ -121,6 +121,20 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
         }
         return $this->_order;
     }
+    
+    public function getTpPagamento() {
+        $tpPagamento = $this->getConfigData('tppagamento');
+        try {
+            $method = $this->getInfoInstance()->getAdditionalInformation('paymentType');
+            $status = $this->getInfoInstance()->getAdditionalInformation('paymentStatus');
+            if ($method == Quack_BB_Model_Source_TpPagamento::BANK_SLIP
+                && $status == Quack_BB_Model_Source_Situacao::DOC_ISSUED) {
+                $tpPagamento = Quack_BB_Model_Source_TpPagamento::BANK_SLIP_DUPLICATE;
+            }
+        } catch (Exception $e) {    
+        }
+        return $tpPagamento;
+    }
         
     /**
      * @param Mage_Sales_Model_Order $order
@@ -129,30 +143,64 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
     public function getRedirectFields() {
         $this->log("Quack_BB_Model_Standard::getRedirectFields() started");
         $order = $this->getOrder();
-        $a = $order->getBillingAddress();
-        $tpPagamento = $this->getConfigData('tppagamento');
-        $dtVenc = date('dmY');
-        $isBoleto = ($tpPagamento == '2' || $tpPagamento == '21');
-        if ($isBoleto) {
-            $dtVenc = $this->getHelper()->getExpireDate( $this->getConfigData('dtvenc') );
-        }
+        $addr  = $order->getBillingAddress();
+        
+        $idConv  = substr($this->getConfigData('idconv'), 0, 6);
         $refTran = $this->getConfigData('reftran').sprintf("%010d", $order->getEntityId());
-        $valor   = number_format($order->getGrandTotal(), 2, '', '');
-          $post = array(
-              'idConv'        => $this->getConfigData('idconv'),
-            'refTran'         => $refTran,
-              'valor'            => $valor,
-              'dtVenc'        => $dtVenc,
-              'tpPagamento'    => $tpPagamento,
-              'urlRetorno'    => $this->getConfigData('urlretorno'),
-            'nome'            => $a->getFirstname() . ' ' . $a->getLastname(),
-            'endereco'      => $a->getStreetFull(),
-            'cidade'        => $a->getCity(),
-            'uf'            => $a->getRegionCode(),
-            'cep'            => $a->getPostcode(),
-              'msgLoja'        => $this->getConfigData('msgloja'),
-        );
-        return $post;
+        $refTran = substr($refTran, 0, 17);
+        
+        /* @var $request Quack_BB_Model_Request */
+        $request = Mage::getModel('bb/request');
+        $request
+            ->setIdConv($idConv)
+            ->setRefTran($refTran)
+            ->setValor($this->getHelper()->getFormattedAmount($order->getGrandTotal()))
+            ->setDtVenc(date('dmY'))
+            ->setTpPagamento($this->getTpPagamento())
+            ->setUrlRetorno($this->getConfigData('urlretorno'));
+
+        if ($this->getHelper()->isBankSlipAvailable( $request->getTpPagamento() )) {
+            $dtVenc = $this->getHelper()->getExpirationDate(date('Y-m-d'), $this->getConfigData('dtvenc'));
+            $digits = new Zend_Filter_Digits();
+            $cpfCnpj = $digits->filter($order->getData('customer_taxvat'));
+            $indPessoa = (strlen($cpfCnpj) == 11) ? '1' : '2';
+            $name = $this->getHelper()->getFormattedCustomerName($addr);
+            if ($indPessoa=1)
+                $name = $this->getHelper()->getFormattedCompanyName($addr);
+            $request
+                ->setDtVenc($dtVenc)
+                ->setCpfCnpj($cpfCnpj)
+                ->setIndicadorPessoa($indPessoa)
+                ->setTpDuplicata($this->getConfigData('tpduplicata'))
+                ->setNome($name)
+                ->setEndereco($this->getHelper()->getFormattedAddress($addr))
+                ->setCidade($this->getHelper()->getFormattedCity($addr))
+                ->setUf($addr->getRegionCode())
+                ->setCep($this->getHelper()->getFormattedPostcode($addr))
+                ->setMsgLoja($this->getConfigData('msgloja'));
+
+            $isDiscountActive = ($order->getDiscountAmount() > 0);
+            $isDiscountActive&= ($this->getConfigData('valordesconto') == 1);
+            if ($isDiscountActive) {
+                $newTotal = $order->getGrandTotal() + $order->getDiscountAmount();
+                $newTotal = $this->getHelper()->getFormattedAmount($newTotal);
+                $request->setValor($newTotal);
+                $discount = $this->getHelper()->getFormattedAmount($order->getDiscountAmount());
+                $request->setValorDesconto($discount);
+                $dataLimiteDesconto = $this->getHelper()
+                    ->getExpirationDate(date('Y-m-d'), $this->getConfigData('datalimitedesconto'));
+                $request->setDataLimiteDesconto($dataLimiteDesconto);
+            }
+        }
+        
+        /*if ($this->getConfigData('pontopravoce') == 1) {
+            $isPF = (strlen($request->getCpfCnpj()) == 11);
+            $request->setTpPagamento($isPF ? '61' : '62');
+            $refTran = $this->getConfigData('idPontopravoce').sprintf("%08d", $order->getEntityId());
+            $request->setRefTran($refTran);
+        }*/
+        
+        return (array)$request;
     }
 
     public function getRequestUrl() {
@@ -192,7 +240,7 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
         } catch (Exception $e) {
             Mage::throwException($e->getMessage());
         }
-        if ($sonda->getSituacao() != '00') {
+        if ($sonda->getSituacao() != Quack_BB_Model_Source_Situacao::RECEIVED) {
             $typeMsg = $this->getHelper()->getTypeMessage  ( $sonda->getTpPagamento() );
             $statMsg = $this->getHelper()->getStatusMessage( $sonda->getSituacao()    );
             Mage::throwException("{$typeMsg}: {$statMsg}");
