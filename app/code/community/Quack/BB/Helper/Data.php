@@ -97,14 +97,26 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
         return $streetFull;
     }
     
+    /**
+     * Retrieve formatted Name by order address
+     * 
+     * @param Mage_Sales_Model_Order_Address $addr
+     * @return string
+     */
     public function getFormattedCustomerName($addr) {
         $name = "{$addr->getFirstname()} {$addr->getLastname()}";
         $name = $this->getFormattedName($name);
         return $name;
     }
-    
+
+    /**
+     * Retrieve formatted Company by order address
+     *
+     * @param Mage_Sales_Model_Order_Address $addr
+     * @return string
+     */
     public function getFormattedCompanyName($addr) {
-        $name = $addr->getCompany();
+        $name = $addr->getFirstname();
         $name = $this->getFormattedName($name);
         return $name;
     }

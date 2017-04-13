@@ -193,6 +193,8 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
             }
         }
         
+        Mage::log(print_r($request, true));
+        
         /*if ($this->getConfigData('pontopravoce') == 1) {
             $isPF = (strlen($request->getCpfCnpj()) == 11);
             $request->setTpPagamento($isPF ? '61' : '62');
