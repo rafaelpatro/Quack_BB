@@ -242,7 +242,7 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
         } catch (Exception $e) {
             Mage::throwException($e->getMessage());
         }
-        if ($sonda->getSituacao() != '00') {
+        if ($sonda->getSituacao() != Quack_BB_Model_Source_Situacao::RECEIVED) {
             $typeMsg = $this->getHelper()->getTypeMessage  ( $sonda->getTpPagamento() );
             $statMsg = $this->getHelper()->getStatusMessage( $sonda->getSituacao()    );
             Mage::throwException("{$typeMsg}: {$statMsg}");
