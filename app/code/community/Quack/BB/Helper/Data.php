@@ -28,23 +28,51 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     public function getStatusMessage($status) {
         $message = $this->__("undefined bank status %s", $status);
         switch ($status) {
-            case '00': $message = $this->__("pagamento efetuado"); break;
-            case '01': $message = $this->__("pagamento não autorizado/transação recusada"); break;
-            case '03': $message = $this->__("pagamento não localizado"); break;
-            case '10': $message = $this->__("campo idConv inválido ou nulo"); break;
-            case '11': $message = $this->__("valor informado é inválido, nulo ou não confere com o valor registrado"); break;
-            case '21': $message = $this->__("pagamento web não autorizado"); break;
-            case '24': $message = $this->__("convênio não cadastrado"); break;
-            case '25': $message = $this->__("convênio não ativo"); break;
-            case '26': $message = $this->__("convênio não permite débito em conta"); break;
-            case '27': $message = $this->__("serviço inválido"); break;
-            case '28': $message = $this->__("boleto emitido"); break;
-            case '29': $message = $this->__("pagamento não efetuado"); break;
-            case '99': $message = $this->__("operação cancelada pelo cliente"); break;
-            case '02':
-            case '22': 
-            case '23':
-            case '30': $message = $this->__("erro no processamento da consulta"); break;
+            case Quack_BB_Model_Source_Situacao::RECEIVED:
+                $message = $this->__("pagamento efetuado");
+                break;
+            case Quack_BB_Model_Source_Situacao::REJECTED:
+                $message = $this->__("pagamento não autorizado/transação recusada");
+                break;
+            case Quack_BB_Model_Source_Situacao::NOT_FOUND:
+                $message = $this->__("pagamento não localizado");
+                break;
+            case Quack_BB_Model_Source_Situacao::INVALID_ID:
+                $message = $this->__("campo idConv inválido ou nulo");
+                break;
+            case Quack_BB_Model_Source_Situacao::INVALID_VALUE:
+                $message = $this->__("valor informado é inválido, nulo ou não confere com o valor registrado");
+                break;
+            case Quack_BB_Model_Source_Situacao::UNAUTHORIZED:
+                $message = $this->__("pagamento web não autorizado");
+                break;
+            case Quack_BB_Model_Source_Situacao::NOT_FOUND_ID:
+                $message = $this->__("convênio não cadastrado");
+                break;
+            case Quack_BB_Model_Source_Situacao::INACTIVE_ID:
+                $message = $this->__("convênio não ativo");
+                break;
+            case Quack_BB_Model_Source_Situacao::DISALLOWED_DEBIT:
+                $message = $this->__("convênio não permite débito em conta");
+                break;
+            case Quack_BB_Model_Source_Situacao::INVALID_METHOD:
+                $message = $this->__("serviço inválido");
+                break;
+            case Quack_BB_Model_Source_Situacao::DOC_ISSUED:
+                $message = $this->__("boleto emitido");
+                break;
+            case Quack_BB_Model_Source_Situacao::NOT_RECEIVED:
+                $message = $this->__("pagamento não efetuado");
+                break;
+            case Quack_BB_Model_Source_Situacao::CANCELLED:
+                $message = $this->__("operação cancelada pelo cliente");
+                break;
+            case Quack_BB_Model_Source_Situacao::PROCESSING_ERROR_02:
+            case Quack_BB_Model_Source_Situacao::PROCESSING_ERROR_22: 
+            case Quack_BB_Model_Source_Situacao::PROCESSING_ERROR_23:
+            case Quack_BB_Model_Source_Situacao::PROCESSING_ERROR_30:
+                $message = $this->__("erro no processamento da consulta");
+                break;
         }
         return $message;
     }
