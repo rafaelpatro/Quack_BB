@@ -121,5 +121,13 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
         $amount = number_format($amount, 2, '', '');
         return $amount;
     }
+    
+    public function isBankSlipAvailable($type) {
+        return in_array($type, array(
+            Quack_BB_Model_Source_TpPagamento::NOT_SET,
+            Quack_BB_Model_Source_TpPagamento::BANK_SLIP,
+            Quack_BB_Model_Source_TpPagamento::BANK_SLIP_DUPLICATE
+        ));
+    }
 }
 ?>

@@ -121,6 +121,19 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
         }
         return $this->_order;
     }
+    
+    public function getTpPagamento() {
+        $tpPagamento = $this->getConfigData('tppagamento');
+        if ($this->getInfoInstance()) {
+            $method = $this->getInfoInstance()->getAdditionalInformation('paymentType');
+            $status = $this->getInfoInstance()->getAdditionalInformation('paymentStatus');
+            if ($method == Quack_BB_Model_Source_TpPagamento::BANK_SLIP
+                && $status == '28') {
+                $tpPagamento = Quack_BB_Model_Source_TpPagamento::BANK_SLIP_DUPLICATE;
+            }
+        }
+        return $tpPagamento;
+    }
         
     /**
      * @param Mage_Sales_Model_Order $order
@@ -142,11 +155,10 @@ class Quack_BB_Model_Standard extends Mage_Payment_Model_Method_Abstract {
             ->setRefTran($refTran)
             ->setValor($this->getHelper()->getFormattedAmount($order->getGrandTotal()))
             ->setDtVenc(date('dmY'))
-            ->setTpPagamento($this->getConfigData('tppagamento'))
+            ->setTpPagamento($this->getTpPagamento())
             ->setUrlRetorno($this->getConfigData('urlretorno'));
 
-        $isBoleto = in_array($request->getTpPagamento(), array('0', '2', '21'));
-        if ($isBoleto) {
+        if ($this->getHelper()->isBankSlipAvailable( $request->getTpPagamento() )) {
             $dtVenc = $this->getHelper()->getExpirationDate(date('Y-m-d'), $this->getConfigData('dtvenc'));
             $digits = new Zend_Filter_Digits();
             $cpfCnpj = $digits->filter($order->getData('customer_taxvat'));
