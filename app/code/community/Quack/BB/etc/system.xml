@@ -173,7 +173,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Mensagem apresentada no boleto de cobrança. Tags HTML não são permitidas, exceto a quebra de linha &lsaquo;br&lraquo;.</comment>
+                            <comment>Mensagem apresentada no boleto de cobrança. Tags HTML não são permitidas, exceto a quebra de linha br.</comment>
                             <depends>
                             	<tppagamento separator=",">0,2,21</tppagamento>
                             </depends>
