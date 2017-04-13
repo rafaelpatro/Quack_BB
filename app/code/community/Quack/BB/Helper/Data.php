@@ -75,8 +75,10 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getFormattedCity($addr) {
         $city = strtoupper($addr->getCity());
+        $city = $this->strtoascii($city);
         $city = preg_replace('/[^A-Z\'\-\s]/', '', $city);
         $city = preg_replace('/[\s\'\-]{2,}/', ' ', $city);
+        $city = preg_replace('/[\n\r\t]/', ' ', $city);
         $city = trim($city);
         $city = substr($city, 0, 18);
         return $city;
@@ -91,6 +93,7 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getFormattedAddress($addr) {
         $streetFull = strtoupper($addr->getStreetFull());
+        $streetFull = $this->strtoascii($streetFull);
         $streetFull = preg_replace('/[^0-9A-Z\'\-\s]/', '', $streetFull);
         $streetFull = preg_replace('/[\s\'\-]{2,}/', ' ', $streetFull);
         $streetFull = preg_replace('/[\n\r\t]/', ' ', $streetFull);
@@ -124,6 +127,7 @@ class Quack_BB_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getFormattedName($name) {
         $name = strtoupper($name);
+        $name = $this->strtoascii($name);
         $name = preg_replace('/[^A-Z\'\-\s]/', '', $name);
         $name = preg_replace('/[\s\'\-]{2,}/', ' ', $name);
         $name = substr($name, 0, 60);
