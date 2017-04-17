@@ -46,8 +46,8 @@ class Quack_BB_Model_Observer {
                 $isAllowBankTransfer = ($payment->getMethodInstance()->getConfigData('allowbanktransfer') == 1);
                 $cmsBankTransferPage = $payment->getMethodInstance()->getConfigData('cms_banktransfer_page');
                 $transport->setData(array(
-                    Mage::helper('bb')->__('Bank Method') => $this->getHelper()->getTypeMessage  ( $payment->getAdditionalInformation( 'paymentType'   ) ),
-                    Mage::helper('bb')->__('Bank Status') => $this->getHelper()->getStatusMessage( $payment->getAdditionalInformation( 'paymentStatus' ) ),
+                    Mage::helper('bb')->__('Bank Method') => Mage::helper('bb')->__("Method {$payment->getAdditionalInformation( 'paymentType'   )}"),
+                    Mage::helper('bb')->__('Bank Status') => Mage::helper('bb')->__("Status {$payment->getAdditionalInformation( 'paymentStatus' )}"),
                 ));
                 if ($state==Mage_Sales_Model_Order::STATE_NEW) {
                     $childBlock = $block->getLayout()->createBlock('payment/info'); /* @var $childBlock Mage_Payment_Block_Info */
@@ -74,8 +74,8 @@ class Quack_BB_Model_Observer {
         $payment  = $observer->getEvent()->getPayment(); /* @var $payment Mage_Payment_Model_Info */
         if ($payment->getMethodInstance()->getCode() == self::PAYMENT_METHOD) {
             $observer->getEvent()->getTransport()->setData(array(
-                    Mage::helper('bb')->__('Bank Method') => $this->getHelper()->getTypeMessage  ( $payment->getAdditionalInformation( 'paymentType'   ) ),
-                    Mage::helper('bb')->__('Bank Status') => $this->getHelper()->getStatusMessage( $payment->getAdditionalInformation( 'paymentStatus' ) ),
+                    Mage::helper('bb')->__('Bank Method') => Mage::helper('bb')->__("Method {$payment->getAdditionalInformation( 'paymentType'   )}"),
+                    Mage::helper('bb')->__('Bank Status') => Mage::helper('bb')->__("Status {$payment->getAdditionalInformation( 'paymentStatus' )}"),
             ));
         }
         return;
