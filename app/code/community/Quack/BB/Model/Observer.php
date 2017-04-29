@@ -77,6 +77,16 @@ class Quack_BB_Model_Observer {
                     Mage::helper('bb')->__('Bank Method') => Mage::helper('bb')->__("Method {$payment->getAdditionalInformation( 'paymentType'   )}"),
                     Mage::helper('bb')->__('Bank Status') => Mage::helper('bb')->__("Status {$payment->getAdditionalInformation( 'paymentStatus' )}"),
             ));
+            $url = Mage::getBaseUrl();
+            $url.= "bb/standard/redirect/order_id/{$payment->getOrder()->getId()}";
+            $button = Mage::app()->getLayout()->createBlock('adminhtml/widget_button')->setData(
+                array(
+                    'id'        => 'bb_standard_pay_btn',
+                    'label'     => Mage::helper('bb')->__('Payment Link'),
+                    'onclick'   => "window.open('{$url}', '_blank'); return false;",
+                )
+            );
+            $observer->getEvent()->getBlock()->setChild('bb_standard_pay_btn', $button);
         }
         return;
     }
