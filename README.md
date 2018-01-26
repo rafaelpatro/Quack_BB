@@ -5,9 +5,10 @@ Desenvolvido a partir do Manual de Orientações Técnicas, fornecido pelo Banco
 [![Build Status](https://travis-ci.org/rafaelpatro/Quack_BB.svg?style=flat)](https://travis-ci.org/rafaelpatro/Quack_BB)
 
 ## Veja também outras integrações
- - [Itaú Shopline](https://github.com/rafaelpatro/Quack_Itau)
- - [Bradesco](https://github.com/rafaelpatro/Quack_Bradesco)
- - [Cielo](https://github.com/rafaelpatro/Quack_Cielo)
+ - [Pagamento Itaú Shopline](https://github.com/rafaelpatro/Quack_Itau)
+ - [Pagamento Cielo](https://github.com/rafaelpatro/Quack_Cielo)
+ - [Frete Jamef Transportes](https://github.com/rafaelpatro/Quack_Jamef)
+ - [Frete TNT Brasil](https://github.com/rafaelpatro/Quack_TntBrasil)
  
 ## Benefícios
  - Receber pagamentos de forma automática, sem necessidade de confirmação manual.
